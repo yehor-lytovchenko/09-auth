@@ -3,7 +3,7 @@
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
 import css from "./Notes.module.css";
 import { useState } from "react";
-import { fetchNotes } from "@/lib/api";
+import { fetchNotes } from "@/lib/api/clientApi";
 import { useDebouncedCallback } from "use-debounce";
 import SearchBox from "@/components/SearchBox/SearchBox";
 import Pagination from "@/components/Pagination/Pagination";
@@ -24,6 +24,7 @@ export default function NotesCLient({ tag }: NotesClientProps) {
     placeholderData: keepPreviousData,
   });
   const totalPages = data?.totalPages ?? 0;
+  const notes = data?.notes ?? [];
 
   const handleChange = useDebouncedCallback((query: string) => {
     setCurrentPage(1);
@@ -48,9 +49,7 @@ export default function NotesCLient({ tag }: NotesClientProps) {
         </Link>
       </header>
 
-      {isSuccess && data.notes.length > 0 && (
-        <NoteList notes={data?.notes || []} />
-      )}
+      {notes.length > 0 && <NoteList notes={notes} />}
 
       {isLoading && !data && <p>Loading...</p>}
       {isError && <p>Something went wrong.</p>}
