@@ -2,19 +2,12 @@
 import { Credentials } from "@/types/user";
 import css from "./SignUpPage.module.css";
 import { register } from "@/lib/api/clientApi";
-import { useRouter } from "next/navigation";
 
 export default function SignUp() {
-  const router = useRouter();
-
   const handleSubmit = async (formData: FormData) => {
-    try {
-      const values = Object.fromEntries(formData) as unknown as Credentials;
-      const user = await register(values);
-      router.replace("/app/(private routes)/profile");
-    } catch (error) {
-      console.log(error);
-    }
+    const values = Object.fromEntries(formData) as unknown as Credentials;
+    const user = await register(values);
+    console.log(user);
   };
 
   return (

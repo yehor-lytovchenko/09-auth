@@ -1,4 +1,3 @@
-import { fetchNotes } from "@/lib/api/clientApi";
 import {
   dehydrate,
   HydrationBoundary,
@@ -6,6 +5,7 @@ import {
 } from "@tanstack/react-query";
 import NotesCLient from "./Notes.client";
 import { Metadata } from "next";
+import { fetchNotes } from "@/lib/api/clientApi";
 
 interface NotesProps {
   params: Promise<{ slug: string[] }>;
@@ -38,7 +38,7 @@ export const generateMetadata = async ({
 export default async function Notes({ params }: NotesProps) {
   const { slug } = await params;
   console.log(slug[0]);
-  const tag = slug[0] === "All notes" ? undefined : slug[0];
+  const tag = slug[0] === "All" ? undefined : slug[0];
   const queryClient = new QueryClient();
 
   await queryClient.prefetchQuery({

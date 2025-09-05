@@ -1,9 +1,17 @@
+"use client";
+import { Credentials } from "@/types/user";
 import css from "./SignInPage.module.css";
+import { login } from "@/lib/api/clientApi";
 
 export default function SignIn() {
+  const handleSubmit = async (formData: FormData) => {
+    const values = Object.fromEntries(formData) as unknown as Credentials;
+    const user = await login(values);
+    console.log(user);
+  };
   return (
     <main className={css.mainContent}>
-      <form className={css.form}>
+      <form className={css.form} action={handleSubmit}>
         <h1 className={css.formTitle}>Sign in</h1>
 
         <div className={css.formGroup}>

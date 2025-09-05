@@ -1,4 +1,3 @@
-import axios from "axios";
 import { NewNote, Note } from "../../types/note";
 import { nextServer } from "./api";
 import { Credentials, User } from "@/types/user";
@@ -10,6 +9,11 @@ interface FetchNotesResponse {
 
 async function register(credentials: Credentials) {
   const { data } = await nextServer.post<User>("/auth/register", credentials);
+  return data;
+}
+
+async function login(credentials: Credentials) {
+  const { data } = await nextServer.post<User>("/auth/login", credentials);
   return data;
 }
 
@@ -44,4 +48,4 @@ async function fetchNoteById(id: string): Promise<Note> {
   return response.data;
 }
 
-export { fetchNotes, createNote, deleteNote, fetchNoteById, register };
+export { fetchNotes, createNote, deleteNote, fetchNoteById, register, login };
