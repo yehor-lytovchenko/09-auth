@@ -42,4 +42,14 @@ async function fetchNoteById(id: string): Promise<Note> {
   return response.data;
 }
 
-export { checkServerSession, fetchNotes, fetchNoteById };
+async function getMe() {
+  const cookieStore = await cookies();
+  const { data } = await nextServer.get("/users/me", {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+  return data;
+}
+
+export { checkServerSession, fetchNotes, fetchNoteById, getMe };
