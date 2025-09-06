@@ -4,12 +4,14 @@ import css from "./EditProfilePage.module.css";
 import { updateMe, getMe } from "@/lib/api/clientApi";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useAuthStore } from "@/lib/store/authStore";
 
 const EditProfilePage = () => {
   const router = useRouter();
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [avatar, setAvatar] = useState("");
+  const setUser = useAuthStore((state) => state.setUser);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -23,8 +25,14 @@ const EditProfilePage = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await updateMe(username);
-    router.push("/profile");
+    try {
+      await updateMe(username);
+      const updatedUser = await getMe();
+      setUser(updatedUser);
+      router.push("/profile");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleCancel = () => {
