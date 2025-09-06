@@ -30,6 +30,10 @@ async function getMe() {
   return data;
 }
 
+async function updateMe(username: string) {
+  await nextServer.patch<User>("/users/me", { username });
+}
+
 interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
@@ -76,4 +80,5 @@ export {
   logout,
   checkSession,
   getMe,
+  updateMe,
 };
